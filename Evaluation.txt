@@ -1,0 +1,135 @@
+TestData : 64
+fear:10
+sad:11
+anger:5
+happy : 25
+disgust:0
+surprise:0
+
+Traindata : 3656
+fear:630 	576
+sad:735
+anger:371
+happy : 2122
+disgust:13
+surprise:149
+
+Evaluation with UNI-BI & NRC : model-v1
+Recall for anger : 0.2
+Precision for anger : 0.3333333333333333
+FScore for anger : 0.25
+Recall for sad : 0.2727272727272727
+Precision for sad : 0.42857142857142855
+FScore for sad : 0.33333333333333326
+Recall for happy : 0.96
+Precision for happy : 0.7272727272727273
+FScore for happy : 0.8275862068965517
+Recall for surprise : NaN
+Precision for surprise : 0.0
+FScore for surprise : 0.0
+Recall for fear : 0.4
+Precision for fear : 0.5714285714285714
+FScore for fear : 0.47058823529411764
+---------------Micro FScore-------------------
+Micro FScore  : 0.6274509803921569
+---------------Macro FScore-------------------
+Macro FScore  : 0.37630155510480057
+
+
+Evaluation with Data : 
+Training Data : 50404
+Test : 5598
+disgust:185
+disgust:18
+sad:11598
+sad:1159
+anger:5151
+anger:515
+happy:28306
+happy:2830
+surprise:2122
+surprise:212
+fear:8638
+fear:863
+
+
+
+
+FScore for disgust : 0.1935483870967742
+FScore for anger : 0.48717948717948717
+FScore for sad : 0.6160302140159463
+FScore for happy : 0.8220560097408245
+FScore for surprise : 0.3418803418803419
+FScore for fear : 0.630252100840336
+Micro FScore  : 0.7025192067178846
+Macro FScore  : 0.515157756792285
+
+With NRC Features
+
+FScore for disgust : 0.20689655172413793
+FScore for anger : 0.4834503510531595
+FScore for sad : 0.6137270550678373
+FScore for happy : 0.8135106000718648
+FScore for surprise : 0.36363636363636365
+FScore for fear : 0.6462781304096942
+Micro FScore  : 0.6973378595676255
+Macro FScore  : 0.5212498419938429
+
+
+
+
+
+After counting Unigram just once in discourse feature
+Start Writing
+FScore for disgust : 0.25
+FScore for anger : 0.5050709939148073
+FScore for sad : 0.5969206474536123
+FScore for happy : 0.7938708500547246
+FScore for surprise : 0.3573333333333334
+FScore for fear : 0.5841694537346711
+Micro FScore  : 0.6744684652492406
+Macro FScore  : 0.5145608797485247
+
+
+
+For gold label disgust : Predicted classes in percentage 
+Predicted Precentage for disgust class : 22.222223
+Predicted Precentage for anger class : 5.555556
+Predicted Precentage for sad class : 27.777779
+Predicted Precentage for happy class : 22.222223
+Predicted Precentage for surprise class : 11.111112
+Predicted Precentage for fear class : 11.111112
+For gold label sad : Predicted classes in percentage 
+Predicted Precentage for disgust class : 0.25884384
+Predicted Precentage for anger class : 4.6591887
+Predicted Precentage for happy class : 15.358067
+Predicted Precentage for sad class : 69.97412
+Predicted Precentage for surprise class : 2.5884383
+Predicted Precentage for fear class : 7.161346
+For gold label anger : Predicted classes in percentage 
+Predicted Precentage for disgust class : 0.38834953
+Predicted Precentage for happy class : 15.53398
+Predicted Precentage for sad class : 26.213593
+Predicted Precentage for anger class : 46.796116
+Predicted Precentage for surprise class : 1.5533981
+Predicted Precentage for fear class : 9.514563
+For gold label happy : Predicted classes in percentage 
+Predicted Precentage for disgust class : 0.10600707
+Predicted Precentage for anger class : 2.04947
+Predicted Precentage for sad class : 9.575972
+Predicted Precentage for happy class : 80.91873
+Predicted Precentage for surprise class : 1.8021202
+Predicted Precentage for fear class : 5.5477033
+For gold label surprise : Predicted classes in percentage 
+Predicted Precentage for anger class : 3.7735848
+Predicted Precentage for sad class : 18.867926
+Predicted Precentage for happy class : 33.018867
+Predicted Precentage for surprise class : 33.962265
+Predicted Precentage for fear class : 10.377358
+For gold label fear : Predicted classes in percentage 
+Predicted Precentage for disgust class : 0.11587485
+Predicted Precentage for anger class : 4.866744
+Predicted Precentage for happy class : 16.801853
+Predicted Precentage for sad class : 14.136732
+Predicted Precentage for surprise class : 2.5492468
+Predicted Precentage for fear class : 61.52955
