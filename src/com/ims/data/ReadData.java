@@ -14,7 +14,11 @@ import com.ims.vo.TweetVO;
 
 public class ReadData {
 
-	
+	/**
+	 * Reads tweets from file and store in List<TweetVO> 
+	 * @param corpus
+	 * @return CorpusVO object with List<TweetVO> 
+	 */
 	public CorpusVO getDataValues(CorpusVO corpus) {
 
 		List<TweetVO> listTweetDO = new ArrayList<TweetVO>();
@@ -69,7 +73,13 @@ public class ReadData {
 		return corpus;
 
 	}
-	
+
+	/**
+	 * Read data from file
+	 * @param fileName
+	 * @return
+	 * @throws IOException
+	 */
 	public Map<String,String> getRawTweet(String fileName) throws IOException{
 		
 		BufferedReader br;

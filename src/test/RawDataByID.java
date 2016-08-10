@@ -20,8 +20,8 @@ public class RawDataByID {
 		
 		String line;
 		List<String> tweetIdList = obj.getTweetList();
-		FileWriter writer = new FileWriter("D:\\Uni-MS\\NLPTeamLabWorkSpace\\Data\\50K-Data\\sample-data-50K.csv");
-		br = new BufferedReader(new FileReader("D:\\Uni-MS\\NLPTeamLab\\DataTeamLAb\\gold-data.csv"));
+		FileWriter writer = new FileWriter("D:\\Uni-MS\\NLPTeamLabWorkSpace\\EmotionAnalysis\\Data\\56K-Data\\sample-data-56K.csv");
+		br = new BufferedReader(new FileReader("D:\\Uni-MS\\NLPTeamLabWorkSpace\\EmotionAnalysis\\Data\\gold-data.csv"));
 		System.out.println(tweetIdList.size());
 		int i=0;
 		while ((line = br.readLine()) != null) {
@@ -48,7 +48,7 @@ public class RawDataByID {
 		String line;
 		
 		List<String> tweetIdList = new ArrayList<String>();
-		br = new BufferedReader(new FileReader("D:\\Uni-MS\\NLPTeamLabWorkSpace\\Data\\50K-Data\\sample-data-50K-preprocessed.csv"));
+		br = new BufferedReader(new FileReader("D:\\Uni-MS\\NLPTeamLabWorkSpace\\EmotionAnalysis\\Data\\56K-Data\\sample-data-56K-preprocessed.csv"));
 		while ((line = br.readLine()) != null) {
 			
 			String elem[] = line.split("	");

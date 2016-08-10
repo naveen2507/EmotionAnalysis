@@ -115,9 +115,8 @@ public class MultiClassPerceptron {
 	}
 
 	/**
-	 * Desc : This will return the TweetVO with the winning predicted label and
-	 * the maxScore
-	 * 
+	 * Desc : This will return the TweetVO with the predicted label and
+	 * their scores in sorted order (decreasing)
 	 * @param tweetInstance
 	 * @param weightMap
 	 * @return

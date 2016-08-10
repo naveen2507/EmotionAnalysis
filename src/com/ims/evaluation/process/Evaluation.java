@@ -40,11 +40,76 @@ public class Evaluation {
 		return eval;
 	}
 
+	
+	
+	/**
+	 * Get Confusion matrix with TP,FP,FN for each class label 
+	 * @param listTweetDo
+	 * @return Confusion Matrix
+	 */
+	public Map<String, EvalautionVO> getConfusionMatrix(List<TweetVO> listTweetDo) {
+
+		
+		Map<String, EvalautionVO> valueMatrix = new HashMap<String, EvalautionVO>();
+
+		for (int i = 0; i < listTweetDo.size(); i++) {
+
+			TweetVO tweetDO = listTweetDo.get(i);
+			String predicted = tweetDO.getPredictedLabel();
+			String gold = tweetDO.getGoldLabel();
+
+			if (gold.equalsIgnoreCase(predicted)) {
+
+				if (valueMatrix.containsKey(gold)) {
+					EvalautionVO values = valueMatrix.get(gold);
+					values.setTp(values.getTp() + 1);
+					valueMatrix.put(gold, values);
+				} else {
+					EvalautionVO values = EvalautionVO.getInstance();
+					values.setTp(values.getTp() + 1);
+					valueMatrix.put(gold, values);
+
+				}
+
+			}
+
+			if (!(gold.equalsIgnoreCase(predicted))) {
+
+				if (valueMatrix.containsKey(gold)) {
+					EvalautionVO values = valueMatrix.get(gold);
+					values.setFn(values.getFn() + 1);
+					valueMatrix.put(gold, values);
+				} else {
+					EvalautionVO values = EvalautionVO.getInstance();
+					values.setFn(values.getFn() + 1);
+					valueMatrix.put(gold, values);
+				}
+
+				if (valueMatrix.containsKey(predicted)) {
+					EvalautionVO values = valueMatrix.get(predicted);
+					values.setFp(values.getFp() + 1);
+					valueMatrix.put(predicted, values);
+				} else {
+					EvalautionVO values = EvalautionVO.getInstance();
+					values.setFp(values.getFp() + 1);
+					valueMatrix.put(predicted, values);
+				}
+			}
+
+		}
+		return valueMatrix;
+
+	}
+
+	/**
+	 * Experimental Setup for Confusion Matrix in Ranking setup where FP is increased by 1for all the predicted labels
+	 * (Not presented in final results)
+	 * @param listTweetDo
+	 * @return Confusion Matrix
+	 */
 	public Map<String, EvalautionVO> getRankingConfusionMatrix(List<TweetVO> listTweetDo) {
 
-		// ReadData obj = new ReadData();
-		// List<TweetVO> listTweetDo =
-		// obj.getDataValues(corpus).getListTweetVO();
+		
 		Map<String, EvalautionVO> valueMatrix = new HashMap<String, EvalautionVO>();
 
 		for (int i = 0; i < listTweetDo.size(); i++) {
@@ -99,127 +164,12 @@ public class Evaluation {
 		return valueMatrix;
 
 	}
-
-	public Map<String, EvalautionVO> getConfusionMatrix(List<TweetVO> listTweetDo) {
-
-		// ReadData obj = new ReadData();
-		// List<TweetVO> listTweetDo =
-		// obj.getDataValues(corpus).getListTweetVO();
-		Map<String, EvalautionVO> valueMatrix = new HashMap<String, EvalautionVO>();
-
-		for (int i = 0; i < listTweetDo.size(); i++) {
-
-			TweetVO tweetDO = listTweetDo.get(i);
-			String predicted = tweetDO.getPredictedLabel();
-			String gold = tweetDO.getGoldLabel();
-
-			if (gold.equalsIgnoreCase(predicted)) {
-
-				if (valueMatrix.containsKey(gold)) {
-					EvalautionVO values = valueMatrix.get(gold);
-					values.setTp(values.getTp() + 1);
-					valueMatrix.put(gold, values);
-				} else {
-					EvalautionVO values = EvalautionVO.getInstance();
-					values.setTp(values.getTp() + 1);
-					valueMatrix.put(gold, values);
-
-				}
-
-			}
-
-			if (!(gold.equalsIgnoreCase(predicted))) {
-
-				if (valueMatrix.containsKey(gold)) {
-					EvalautionVO values = valueMatrix.get(gold);
-					values.setFn(values.getFn() + 1);
-					valueMatrix.put(gold, values);
-				} else {
-					EvalautionVO values = EvalautionVO.getInstance();
-					values.setFn(values.getFn() + 1);
-					valueMatrix.put(gold, values);
-				}
-
-				if (valueMatrix.containsKey(predicted)) {
-					EvalautionVO values = valueMatrix.get(predicted);
-					values.setFp(values.getFp() + 1);
-					valueMatrix.put(predicted, values);
-				} else {
-					EvalautionVO values = EvalautionVO.getInstance();
-					values.setFp(values.getFp() + 1);
-					valueMatrix.put(predicted, values);
-				}
-			}
-
-		}
-		return valueMatrix;
-
-	}
-
-	public double getFScore(double precision, double recall) {
-
-		if (precision == 0 || recall == 0) {
-			return 0.0;
-		}
-		double fscore = (2 * precision * recall) / (precision + recall);
-		return fscore;
-
-	}
-
-	public double getPrecision(double tp, double fp) {
-		double precision = (double) tp / (tp + fp);
-		return precision;
-
-	}
-
-	public double getRecall(double tp, double fn) {
-		double recall = (double) tp / (tp + fn);
-		return recall;
-
-	}
-
-	public EvalautionVO getEvalautionMetric(EvalautionVO confMatrixDO) {
-
-		double precision = getPrecision(confMatrixDO.getTp(), confMatrixDO.getFp());
-		double recall = getRecall(confMatrixDO.getTp(), confMatrixDO.getFn());
-		confMatrixDO.setPrecision(precision);
-		confMatrixDO.setRecall(recall);
-		confMatrixDO.setFscore(getFScore(precision, recall));
-		return confMatrixDO;
-
-	}
-
-	public ResultVO getMacroScore(ResultVO metric, int totalClass) {
-		metric.setMacrofscore(metric.getAggFScore() / totalClass);
-		return metric;
-	}
-
-	public ResultVO getMicroScore(ResultVO metric) {
-		double aggPrecision = getPrecision(metric.getAggTP(), metric.getAggFP());
-		double aggRecall = getRecall(metric.getAggTP(), metric.getAggFN());
-		metric.setMicrofscore(getFScore(aggPrecision, aggRecall));
-		return metric;
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public boolean checkPredictedLabels(String gold, List<String> predictedLabels) {
-		boolean status = false;
-		for (String predicted : predictedLabels) {
-			if (gold.equalsIgnoreCase(predicted)) {
-				status = true;
-				break;
-			}
-
-		}
-		return status;
-
-	}
 	
-	
+	/**
+	 * Experimental Setup for Confusion Matrix in Ranking setup Top N predictions are taken and TP and FP are increased by 1/N 
+	 * @param listTweetDo
+	 * @return ConfusionMatrix
+	 */
 	public Map<String, EvalautionVO> getRankingNumConfusionMatrix(List<TweetVO> listTweetDo) {
 
 		Map<String, EvalautionVO> valueMatrix = new HashMap<String, EvalautionVO>();
@@ -280,7 +230,111 @@ public class Evaluation {
 		return valueMatrix;
 
 	}
+
 	
+	/**
+	 * Returns F Score
+	 * @param precision
+	 * @param recall
+	 * @return
+	 */
+	public double getFScore(double precision, double recall) {
+
+		if (precision == 0 || recall == 0) {
+			return 0.0;
+		}
+		double fscore = (2 * precision * recall) / (precision + recall);
+		return fscore;
+
+	}
+
+	/**
+	 * Returns Precision
+	 * @param tp
+	 * @param fp
+	 * @return
+	 */
+	public double getPrecision(double tp, double fp) {
+		double precision = (double) tp / (tp + fp);
+		return precision;
+
+	}
+
+	/**
+	 * Returns Recall
+	 * @param tp
+	 * @param fn
+	 * @return
+	 */
+	public double getRecall(double tp, double fn) {
+		double recall = (double) tp / (tp + fn);
+		return recall;
+
+	}
+
+	/**
+	 * Get precision,recall and fscore
+	 * @param confMatrixDO
+	 * @return
+	 */
+	public EvalautionVO getEvalautionMetric(EvalautionVO confMatrixDO) {
+
+		double precision = getPrecision(confMatrixDO.getTp(), confMatrixDO.getFp());
+		double recall = getRecall(confMatrixDO.getTp(), confMatrixDO.getFn());
+		confMatrixDO.setPrecision(precision);
+		confMatrixDO.setRecall(recall);
+		confMatrixDO.setFscore(getFScore(precision, recall));
+		return confMatrixDO;
+
+	}
+
+	/**
+	 * Get Macro Fscore
+	 * @param metric
+	 * @param totalClass
+	 * @return
+	 */
+	public ResultVO getMacroScore(ResultVO metric, int totalClass) {
+		metric.setMacrofscore(metric.getAggFScore() / totalClass);
+		return metric;
+	}
+
+	/**
+	 * Get Micro Fscore
+	 * @param metric
+	 * @return
+	 */
+	public ResultVO getMicroScore(ResultVO metric) {
+		double aggPrecision = getPrecision(metric.getAggTP(), metric.getAggFP());
+		double aggRecall = getRecall(metric.getAggTP(), metric.getAggFN());
+		metric.setMicrofscore(getFScore(aggPrecision, aggRecall));
+		return metric;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean checkPredictedLabels(String gold, List<String> predictedLabels) {
+		boolean status = false;
+		for (String predicted : predictedLabels) {
+			if (gold.equalsIgnoreCase(predicted)) {
+				status = true;
+				break;
+			}
+
+		}
+		return status;
+
+	}
+	
+	
+	/**
+	 * Get top N Predictions
+	 * @param scoreMap
+	 * @return Top predictions
+	 */
 	public List<String> getTopRankingLevels(Map<String,Double> scoreMap){
 		
 		int i = 0 ;

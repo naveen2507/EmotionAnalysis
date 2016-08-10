@@ -18,7 +18,7 @@ import com.ims.vo.TweetVO;
  * 
  * 
  * @author Naveen
- *
+ * This Class uses the configuration for the selected features to extract the features for each tweet.
  */
 public class FeatureVectorExtraction {
 
@@ -29,6 +29,12 @@ public class FeatureVectorExtraction {
 	Map<String, List<String>> emotionMap;
 	Map<String, String> smileyMap;
 
+	/**
+	 * Extract features for tweets
+	 * @param lstTweetVO
+	 * @return
+	 * @throws IOException
+	 */
 	public List<TweetVO> getFeatureVectors(List<TweetVO> lstTweetVO) throws IOException {
 		unigramMap = Helper.getInstance().getNgramDictionary(ApplicationDetails.unigramDictioanry);
 		bigramMap = Helper.getInstance().getNgramDictionary(ApplicationDetails.bigramDictioanry);
@@ -46,6 +52,10 @@ public class FeatureVectorExtraction {
 				System.out.println("Feature Ext for Tweet No :" + i);
 			Map<String, Double> featureVector = new HashMap<String, Double>();
 			String tweet = tweetVO.getPreprocessedTweet().toLowerCase();
+			
+			/**
+			 * Setting for all the features required
+			 */
 			getNgramFeatures(tweet, featureVector);
 			//getEmotionFeature(tweet, featureVector);
 			//getWinningEmotionFeature(tweet, featureVector);
@@ -62,11 +72,17 @@ public class FeatureVectorExtraction {
 			lstFeatureTweetVO.add(tweetVO);
 
 		}
-		ApplicationDetails appDetails = ApplicationDetails.getInstance();
+		//ApplicationDetails appDetails = ApplicationDetails.getInstance();
 		//appDetails.setFeatureNames(featureNames);
 		return lstFeatureTweetVO;
 	}
 
+	/**
+	 * SImple Negation feature for present of Negation word 
+	 * @param tweet
+	 * @param featureVector
+	 * @throws IOException
+	 */
 	public void getNegationFeatures(String tweet, Map<String, Double> featureVector) throws IOException {
 
 		for (String negation : negationDictionary) {
@@ -78,6 +94,13 @@ public class FeatureVectorExtraction {
 		
 	}
 	
+	
+	/**
+	 * Negation Discourse Feature add as negation feature for window of three words after negation word until Conj_Fol occurs. 
+	 * @param tweet
+	 * @param featureVector
+	 * @throws IOException
+	 */
 	public void getNegationDiscourseFeature(String tweet, Map<String, Double> featureVector) throws IOException {
 		String[] wordList = tweet.split(" ");
 		List<String> conj_fol = Arrays.asList(ApplicationDetails.CONJ_FOL.split(","));
@@ -100,6 +123,13 @@ public class FeatureVectorExtraction {
 		}
 	}
 
+	
+	/**
+	 * Gets Discourse features
+	 * @param tweet
+	 * @param featureVector
+	 * @throws IOException
+	 */
 	public void discourseFeature(String tweet, Map <String, Double> featureVector) throws IOException {
 		String[] wordList = tweet.split(" ");
 		List<String> conditionals = Arrays.asList(ApplicationDetails.CONDITIONALS.split(","));
@@ -126,6 +156,12 @@ public class FeatureVectorExtraction {
 	}
 
 	
+	/**
+	 * Get Ngram present/absent feature
+	 * @param tweet
+	 * @param featureVector
+	 * @throws IOException
+	 */
 	public void getNgramFeatures(String tweet, Map<String, Double> featureVector) throws IOException {
 
 		for (String unigram : unigramMap.keySet()) {
@@ -143,6 +179,12 @@ public class FeatureVectorExtraction {
 
 	}
 
+	/**
+	 * Get NRC emotion Feature
+	 * @param tweet
+	 * @param featureVector
+	 * @throws IOException
+	 */
 	public void getEmotionFeature(String tweet, Map<String, Double> featureVector) throws IOException {
 		String[] wordList = tweet.split(" ");
 		for (String word : wordList) {
@@ -164,6 +206,13 @@ public class FeatureVectorExtraction {
 
 	}
 
+	
+	/**
+	 * Get NRC winning emotion feature which occurs most number of times in a text.
+	 * @param tweet
+	 * @param featureVector
+	 * @throws IOException
+	 */
 	public void getWinningEmotionFeature(String tweet, Map<String, Double> featureVector) throws IOException {
 		String[] wordList = tweet.split(" ");
 		Map<String,Double> maxEmotionMap = new HashMap<String,Double>();
@@ -196,7 +245,13 @@ public class FeatureVectorExtraction {
 	}
 
 	
-	
+	/**
+	 * Adds up smiley feature to feature vector for present/absent
+	 * @param tweet
+	 * @param featureVector
+	 * @param smileyMap
+	 * @throws IOException
+	 */
 	public void getSmileyFeature(String tweet, Map<String, Double> featureVector, Map<String, String> smileyMap)
 			throws IOException {
 		String[] wordList = tweet.split(" ");
@@ -211,6 +266,14 @@ public class FeatureVectorExtraction {
 		}
 	}
 	
+	
+	/**
+	 * Gives score to different smiley in text at different scale
+	 * @param tweet
+	 * @param featureVector
+	 * @param smileyMap
+	 * @throws IOException
+	 */
 	public void getSmileyFeatureScores(String tweet, Map<String, Double> featureVector, Map<String, String> smileyMap)
 			throws IOException {
 		String[] wordList = tweet.split(" ");
@@ -240,6 +303,13 @@ public class FeatureVectorExtraction {
 		}
 	}
 	
+	
+	/**
+	 * (Not used in pipeline) Write feature vectors in a file
+	 * @param fileName
+	 * @param listTweetVO
+	 * @throws IOException
+	 */
 	public void writeFeatures(String fileName,List<TweetVO> listTweetVO) throws IOException{
 	
 		

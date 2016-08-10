@@ -41,10 +41,37 @@ public class Test {
 		if(ApplicationDetails.RANKING_PERCEPTRON){
 			testObj.getCorrelationMap(listTweetVOPredicted);
 		}
+		testObj.getConfusionMatrix(listTweetVOPredicted);
 		Results result = Results.getInstance();
+		
 		ResultVO evalAggDO = result.getConfusionMatrix(listTweetVOPredicted);
 		result.getResult(evalAggDO);
 		testObj.writeResults(ApplicationDetails.testOutDataFile, listTweetVOPredicted);
+	}
+	
+	public void getConfusionMatrix(List<TweetVO> listTweetVOPredicted){
+		
+		Map<String, Map<String, Integer>> otherClassMap = initiazeCorrelationMap();
+	
+		for (TweetVO tweetInstance : listTweetVOPredicted) {
+			
+			String gold = tweetInstance.getGoldLabel();
+			String predicted = tweetInstance.getPredictedLabel();
+			Map<String,Integer> classMap = otherClassMap.get(gold);
+			classMap.put(predicted, classMap.get(predicted)+1);
+			otherClassMap.put(gold, classMap);
+		}
+		
+		
+		for (String label : otherClassMap.keySet()) {
+			Map<String, Integer> classmAp = otherClassMap.get(label);
+			for (String labelInner : classmAp.keySet()) {
+				System.out
+						.println("Total number for gold : " + label + " :with: " + labelInner + " :" + classmAp.get(labelInner));
+			}
+
+		}
+
 	}
 
 	public Map<String, Double> getCorrelationMap(List<TweetVO> listTweetVO) throws IOException {
@@ -96,8 +123,8 @@ public class Test {
 		for (String elem : classLAbel) {
 			Map<String, Integer> classMap = new HashMap<String, Integer>();
 			for (String elem2 : classLAbel) {
-				if (elem2.equals(elem))
-					continue;
+				/*if (elem2.equals(elem))
+					continue;*/
 				classMap.put(elem2, 0);
 			}
 

@@ -33,19 +33,30 @@ public class Results {
 		return result;
 	}
 
-	
+	/**
+	 * Read data from corpus
+	 * @param corpus
+	 * @return List<TweetVO>
+	 */
 	public List<TweetVO> getData(CorpusVO corpus) {
 		ReadData obj = new ReadData();
 		List<TweetVO> listTweetDo = obj.getDataValues(corpus).getListTweetVO();
 		return listTweetDo;
 	}
 	
+	/**
+	 * Get confusion Matrix depending upon the configuration for Ranking or not
+	 * @param listTweetVO
+	 * @return
+	 */
 	public ResultVO getConfusionMatrix(List<TweetVO> listTweetVO){
 		Evaluation eval = Evaluation.getInstance();
 		Map<String, EvalautionVO> confusionMatrix;
 		if(ApplicationDetails.RANKING_PERCEPTRON){
 			confusionMatrix = eval.getRankingConfusionMatrix(listTweetVO);
 		}
+		
+		//INCR_RANKING states for top N ranking and adding TP and FP by 1/N
 		else if (ApplicationDetails.INCR_RANKING_PERCEPTRON) {
 			confusionMatrix = eval.getRankingNumConfusionMatrix(listTweetVO);
 		}
@@ -60,7 +71,10 @@ public class Results {
 	
 	
 
-	
+	/**
+	 * Print results 
+	 * @param metric
+	 */
 	public void getResult(ResultVO metric) {
 
 		

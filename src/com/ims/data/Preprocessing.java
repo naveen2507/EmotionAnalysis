@@ -17,13 +17,26 @@ import com.ims.FeatureEngineering.Helper;
 import com.ims.vo.CorpusVO;
 import com.ims.vo.TweetVO;
 
+/**
+ * 
+ * @author Naveen
+ *
+ * Preprocessing of Raw tweet content to filter out some of the content
+ * 
+ */
 public class Preprocessing {
 
+	/**
+	 * 
+	 * @param tweet
+	 * @return String
+	 * 
+	 * Removes Hash tags used for crawling the tweets related to different class labels.
+	 * 
+	 */
 	public String removeHashtag(String tweet) {
 
-		List<String> hashTagList = Arrays.asList("#afraid", "#anger", "#bitter", "#disguise", "#disgust", "#fear",
-				"#glad", "#grief", "#happiness", "#happy", "#hate", "#hatred", "#horror", "#joy", "#lucky", "#misery",
-				"#panic", "#rage", "#sad", "#sadness", "#scare", "#sorrow", "#surprise", "#worry");
+		List<String> hashTagList = ApplicationDetails.HASH_TAG_LIST;
 		String preprocessedTweet = tweet.toLowerCase();
 		for (String hashtag : hashTagList) {
 			preprocessedTweet = preprocessedTweet.replaceAll(hashtag, "");
@@ -33,6 +46,11 @@ public class Preprocessing {
 
 	}
 
+	
+	/**
+	 * Reads Emotion Smiley Dictionary and stores it in a collection.
+	 * @return
+	 */
 	public Map<String, String> mapSmileyemotion() {
 		BufferedReader br;
 		String line;
@@ -40,7 +58,7 @@ public class Preprocessing {
 
 		try {
 			br = new BufferedReader(
-					new FileReader("C:/Users/user/git/EmotionalAnalysisRepo/Data/dict/emoticonsWithPolarity_New.txt"));
+					new FileReader(ApplicationDetails.smileyDictionary));
 			while ((line = br.readLine()) != null) {
 				String elem[] = line.split("\t", 2);
 				// System.out.println(elem[1]);
@@ -55,21 +73,12 @@ public class Preprocessing {
 
 	}
 
-	public String replaceSmileyEmotion(Map<String, String> smileyMap, String tweet) {
-
-		return null;
-
-	}
 	
-	/*public String removeStopWords(String text){
-		
-		Helper objHelper = Helper.getInstance();
-		List<String> listStopWords = objHelper.getStopList();
-		
-		return null;
-		
-	}*/
-	
+	/**
+	 * 
+	 * @param lstTweetVO : List of TweetVO 
+	 * @return lstTweetVO : after preproceesing of tweets
+	 */
 
 	public List<TweetVO> getPreprocessedtweet(List<TweetVO> lstTweetVO) {
 
@@ -121,6 +130,13 @@ public class Preprocessing {
 		return preprocessedList;
 	}
 
+	
+	/**
+	 * 
+	 * @param listTweetVO
+	 * @param fileName : Writes Preprocessed Tweets in a file
+	 * @throws IOException
+	 */
 	public void writeFile(List<TweetVO> listTweetVO, String fileName) throws IOException {
 
 		FileWriter writer = new FileWriter(fileName);
@@ -150,6 +166,11 @@ public class Preprocessing {
 		}
 	}
 
+	/**
+	 * Filters out similar tweets using cosine similarity score threshold
+	 * @param lstTweetVO
+	 * @return
+	 */
 	public List<TweetVO> getFilteredtweet(List<TweetVO> lstTweetVO) {
 		List<TweetVO> preprocessedList = new ArrayList<TweetVO>();
 		Set<String> tempHashSet = new HashSet<String>();
@@ -163,7 +184,7 @@ public class Preprocessing {
 				if (!(tweet1.trim().equalsIgnoreCase("[URL]") | tweet1.trim().isEmpty())) {
 					for (TweetVO tweet2instance : preprocessedList) {
 						score = tweetinstance.getCosineSimilarityScore(tweet2instance);
-						if (score > 0.9999) {
+						if (score > 0.8) {
 							flag = 1;
 							//System.out.println(tweetinstance.getPreprocessedTweet());
 							//System.out.println(tweet2instance.getPreprocessedTweet());
@@ -184,6 +205,14 @@ public class Preprocessing {
 
 	}
 	
+	/**
+	 * Writes Filtered tweets to a file 
+	 * @param lstTweetVO
+	 * @param fileName
+	 * @return  List<TweetVO>
+	 * @throws IOException
+	 */
+	
 	public List<TweetVO> getFilteredtweet(List<TweetVO> lstTweetVO,String fileName) throws IOException {
 		List<TweetVO> preprocessedList = new ArrayList<TweetVO>();
 		//Set<String> tempHashSet = new HashSet<String>();
@@ -203,7 +232,7 @@ public class Preprocessing {
 				if (!(tweet1.trim().equalsIgnoreCase("[URL]") | tweet1.trim().isEmpty())) {
 					for (TweetVO tweet2instance : preprocessedList) {
 						score = tweetInstance.getCosineSimilarityScore(tweet2instance);
-						if (score > 0.9) {
+						if (score > 0.8) {
 							i++;
 							
 							//System.out.println("Tweet1:"+tweetinstance.getPreprocessedTweet());
@@ -259,8 +288,6 @@ public class Preprocessing {
 	public static void main(String[] args) {
 
 		try {
-			
-			
 			/*
 			TweetVO tweet1 = new TweetVO();
 			tweet1.setTweet("Being stupid and angry is not a fault");

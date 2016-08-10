@@ -21,6 +21,11 @@ public class ApplicationDetails {
 	
 	public static int NO_OF_TRAINING_ITERATION = 50;
 	public static List<String> labels = Arrays.asList("sad", "anger", "fear", "happy", "disgust", "surprise");
+	
+	public static List<String> HASH_TAG_LIST = Arrays.asList("#afraid", "#anger", "#bitter", "#disguise", "#disgust", "#fear",
+			"#glad", "#grief", "#happiness", "#happy", "#hate", "#hatred", "#horror", "#joy", "#lucky", "#misery",
+			"#panic", "#rage", "#sad", "#sadness", "#scare", "#sorrow", "#surprise", "#worry");
+	
 	public static String stop_word_file = ";";
 	public static String model_file_sep = "------:::::::::::::::::::::::::::::------";
 	public static String model_file_class_sep = "------------------------------------";
@@ -57,7 +62,7 @@ public class ApplicationDetails {
 	
 	public static int RANKING_LEVEL = 6;
 	public static boolean RANKING_PERCEPTRON = false;
-	public static boolean INCR_RANKING_PERCEPTRON = true;
+	public static boolean INCR_RANKING_PERCEPTRON = false;
 	
 	
 	

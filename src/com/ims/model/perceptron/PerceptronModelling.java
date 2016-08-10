@@ -18,6 +18,12 @@ import com.ims.vo.TweetVO;
  */
 public class PerceptronModelling {
 
+	/**
+	 * Training Method
+	 * @param listTweetVO
+	 * @param modelfileName
+	 * @throws IOException
+	 */
 	public void perceptronTrain(List<TweetVO> listTweetVO, String modelfileName) throws IOException {
 
 		Map<String, Map<String, Double>> weightMap = initializeWeightVecor();

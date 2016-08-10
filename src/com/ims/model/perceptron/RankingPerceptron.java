@@ -6,8 +6,16 @@ import java.util.Map;
 
 import com.ims.vo.TweetVO;
 
+
+/**
+ * Experimental Setup : It is part of experimentation where we tried to get some boundary for getting Top Ranked Perceptron
+ * using some metrics of Standard deviation
+ * @author Naveen
+ *
+ */
 public class RankingPerceptron {
 
+	
 	public Map<String,Double> getTopRankedPerceptrons(TweetVO tweetInstance) {
 		
 		Map<String,Double> rankedPerceptrons = new HashMap<String,Double>();
