@@ -18,7 +18,7 @@ import com.ims.vo.TweetVO;
  * 
  * 
  * @author Naveen
- * This Class uses the configuration for the selected features to extract the features for each tweet.
+ * This Class sets the configuration for the selected features to extract the features for each tweet.
  */
 public class FeatureVectorExtraction {
 

@@ -15,6 +15,11 @@ import java.util.Map.Entry;
 
 import com.ims.data.ApplicationDetails;
 
+/**
+ * Class caters the need of Helper class by reading dihherent dictionary/files from disk to get it used in the system
+ * @author Naveen
+ *
+ */
 public class Helper {
 
 	private static Helper objHelper;

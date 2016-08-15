@@ -16,8 +16,21 @@ import com.ims.evaluation.process.Results;
 import com.ims.evaluation.vo.ResultVO;
 import com.ims.vo.TweetVO;
 
+/**
+ * Description : This class implements Perceptron algorithm for training and testing including the functions
+ * 				 for get winning Perceptron and weight initialization function ,etc. 
+ * @author Naveen
+ *
+ */
 public class MultiClassPerceptron {
 
+	/**
+	 * 
+	 * Description : Assigns or initialize weight to each feature as 0.0 and returns it in weightMap.
+	 * @param features : Set
+	 * @param weightMap
+	 * @return
+	 */
 	public Map<String, Map<String, Double>> getWeightVecors(Set<String> features,
 			Map<String, Map<String, Double>> weightMap) {
 
@@ -38,7 +51,15 @@ public class MultiClassPerceptron {
 		return weightMap;
 
 	}
-
+	
+	
+	/**
+	 * Description : Trains model with N number of iterations and adjusting or updating weights for each perceptron in different 
+	 * 				 iterations depending upon the predicted label
+	 * @param listTweetVO : List<TweetVO>
+	 * @param weightMap : 	Map<String, Map<String, Double>>
+	 * @return
+	 */
 	public Map<String, Map<String, Double>> trainModel(List<TweetVO> listTweetVO,
 			Map<String, Map<String, Double>> weightMap) {
 
@@ -85,11 +106,10 @@ public class MultiClassPerceptron {
 	}
 
 	/**
-	 * Desc : This will return the TweetVO with the winning predicted label and
-	 * the maxScore
+	 * Desc : This will return the TweetVO with the winning predicted label (which has max score)
 	 * 
-	 * @param tweetInstance
-	 * @param weightMap
+	 * @param tweetInstance : TweetVO
+	 * @param weightMap : Map<String, Map<String, Double>>
 	 * @return
 	 */
 	public TweetVO getWinningPerceptron(TweetVO tweetInstance, Map<String, Map<String, Double>> weightMap) {
@@ -150,6 +170,13 @@ public class MultiClassPerceptron {
 
 	}
 
+	/**
+	 * Desc : Test model on a TweetVO instance and returns the predicted label or labels , depending upon the configurations
+	 *  	  for Ranked result or not.
+	 * @param tweetInstance
+	 * @param weightMap
+	 * @return
+	 */
 	public TweetVO testModel(TweetVO tweetInstance, Map<String, Map<String, Double>> weightMap) {
 		Map<String, Double> featureVector = tweetInstance.getFeatureVector();
 		featureVector = tuneInitFeatureVector(featureVector);
@@ -166,6 +193,12 @@ public class MultiClassPerceptron {
 
 	}
 
+	/**
+	 * Gets 'y' value
+	 * @param weights
+	 * @param featureVector
+	 * @return
+	 */
 	public Double getYValue(Map<String, Double> weights, Map<String, Double> featureVector) {
 
 		double y = 0.0;
@@ -182,6 +215,13 @@ public class MultiClassPerceptron {
 
 	}
 
+	/**
+	 * Adjust weight depending upon the prediction 
+	 * @param weight
+	 * @param action
+	 * @param featureVector
+	 * @return
+	 */
 	public Map<String, Double> getAdjustedWeight(Map<String, Double> weight, boolean action,
 			Map<String, Double> featureVector) {
 
@@ -203,6 +243,12 @@ public class MultiClassPerceptron {
 
 	}
 
+	/**
+	 * Comparator to sort HashMap
+	 * 
+	 * @param map
+	 * @return
+	 */
 	private static HashMap sortByValues(HashMap map) {
 		List list = new LinkedList(map.entrySet());
 		// Defined Custom Comparator here
